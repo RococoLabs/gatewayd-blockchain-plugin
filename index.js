@@ -1,3 +1,3 @@
 
-module.exports = require(__dirname+'/lib/plugin_router.js');
+module.exports = require(__dirname+'/router/plugin_router.js');
 
