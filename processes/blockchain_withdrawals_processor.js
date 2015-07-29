@@ -12,7 +12,8 @@ loopAndProcessWithdrawal = function(callback) {
   return async.waterfall([
     function(next) {
       return getWithdrawal(next);
-    }, function(withdrawal, next) {
+    },
+    function(withdrawal, next) {
       return getWithdrawalAddress(withdrawal.external_account_id, function(error, externalAccount) {
         if (error) {
           console.log("getWithdrawalAddress::error", error);
@@ -22,17 +23,21 @@ loopAndProcessWithdrawal = function(callback) {
           return next(null, withdrawal, externalAccount);
         }
       });
-    }, function(withdrawal, externalAccount, next) {
-      return sendCoins({
+    },
+    function(withdrawal, externalAccount, next) {
+      var withdrawaldata = {
         amount: withdrawal.amount,
         address: externalAccount.uid
-      }, function(error, response) {
+      };
+      return sendCoins(withdrawaldata, function(error, response) {
         return next(error, withdrawal);
       });
-    }, function(withdrawal, next) {
+    },
+    function(withdrawal, next) {
       return clearWithdrawal(withdrawal, next);
     }
-  ], function(error, clearedWithdrawal) {
+  ],
+  function(error, clearedWithdrawal) {
     return setTimeout((function() {
       return callback(callback);
     }), 2000);
@@ -44,11 +49,13 @@ getWithdrawal = function(callback) {
     var withdrawal;
     if (error) {
       return callback(error, null);
-    } else {
+    }
+    else {
       withdrawal = response.body.withdrawals[0];
       if (withdrawal) {
         return callback(null, withdrawal);
-      } else {
+      }
+      else {
         return callback("no withdrawals", null);
       }
     }
@@ -59,7 +66,8 @@ getWithdrawalAddress = function(externalAccountId, callback) {
   return request.get(gatewaydDomain + "/v1/external_accounts/" + externalAccountId).auth(gatewaydApiAdmin, gatewaydApiKey).end(function(error, response) {
     if (error) {
       return callback(error, null);
-    } else {
+    }
+    else {
       console.log("getWithdrawalAddress::response", response.body);
       return callback(null, response.body.external_account);
     }
@@ -68,10 +76,12 @@ getWithdrawalAddress = function(externalAccountId, callback) {
 
 sendCoins = function(options, callback) {
   coindaemon.sendtoaddress(options.address, options.amount, function(error, transaction) {
-    if(error)
+    if(error) {
       console.log("SEND COINS ERROR", error);
-    else
+    }
+    else {
       console.log("SENT COINS", transaction);
+    }
     return callback(error, transaction.address, options.withdrawal);
   }); 
 };
