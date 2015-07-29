@@ -6,7 +6,7 @@ describe('Blockchain Poller', function() {
 
   before(function() {
     blockchainPoller = new BlockchainPoller({
-      lastBlockHash: config.get('lastBlockHash'),
+      bitcoindLastBlockHash: config.get('bitcoindLastBlockHash'),
       blockchainClient:  new BlockchainClient()
     });
   });
@@ -14,7 +14,7 @@ describe('Blockchain Poller', function() {
   it('accepts a function to call when a block with new transactions is discovered', function(done) {
   
     blockchainPoller.pollForBlocks(function(block, next) {
-      config.set('lastBlockHash', block.hash);
+      config.set('bitcoindLastBlockHash', block.hash);
       next();
       done();
     });

@@ -1,8 +1,9 @@
 const gatewayd = require(__dirname+'/../../gatewayd/');
 const QueueWorker = require('sql-mq-worker');
 const blockchain =  require('blockchain-monitor');
+var config = require('../config/config.js');
 
-const blockchainClient = new blockchain.Client(gatewayd.config.get('dogecoind'));
+const blockchainClient = new blockchain.Client(config.get('bitcoind'));
 
 const worker = new QueueWorker({
   Class: gatewayd.data.models.externalAccounts,

@@ -1,12 +1,12 @@
-const DogecoinPlugin = require('dogecoin-gatewayd-plugin');
+const BlockchainPlugin = require('../gatewayd-blockchain-plugin');
 
 module.exports = function(gatewayd) {
   
-  const dogecoinPlugin = new DogecoinPlugin({
+  const blockchainPlugin = new BlockchainPlugin({
     gatewayd: gatewayd
   }); 
 
-  gatewayd.server.use('/', dogecoinPlugin);
+  gatewayd.server.use('/', blockchainPlugin);
  
-}
+};
 

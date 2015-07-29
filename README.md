@@ -19,7 +19,7 @@ In the Gatewaydfile.js of your gatewayd installation
           https: false,
           user: 'rpcUser',
           pass: 'rpcPassword',
-          type: 'dogecoin'
+          type: 'bitcoin'
         })
       }); 
 
