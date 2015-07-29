@@ -1,6 +1,6 @@
 const BlockchainPoller = require(__dirname+'/../lib/blockchain_poller.js');
 const BlockchainClient = require(__dirname+'/../lib/blockchain_client.js');
-const config = require(__dirname+'/../lib/config.js');
+const config = require(__dirname+'/../config/config.js');
 
 describe('Blockchain Poller', function() {
 
