@@ -1,7 +1,7 @@
-var SqlMqWorker, async, clearWithdrawal, config, getWithdrawal, getWithdrawalAddress, loopAndProcessWithdrawal, request, sendCoins;
+var SqlMqWorker, async, clearWithdrawal, getWithdrawal, getWithdrawalAddress, loopAndProcessWithdrawal, request, sendCoins;
 var gatewaydDomain, gatewaydApiAdmin, gatewaydApiKey;
 
-var config = require("../config/config.js");
+var config = require(__dirname + "/../config/config.js");
 var coindaemon = require("node-dogecoin")();
 coindaemon.set("user", config.get("bitcoind").user);
 coindaemon.set("password", config.get("bitcoind").pass);
@@ -98,7 +98,6 @@ clearWithdrawal = function(withdrawal, callback) {
 };
 
 request = require("superagent");
-config = require(__dirname + "/config/config.js");
 async = require("async");
 SqlMqWorker = require("sql-mq-worker");
 

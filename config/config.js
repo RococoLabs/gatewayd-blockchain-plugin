@@ -5,7 +5,7 @@ config
   .env()
   .file({ file: __dirname+"/config.json" });
 
-nconf.defaults({
+config.defaults({
   "environment": "development",
 
   "gatewayd" : {

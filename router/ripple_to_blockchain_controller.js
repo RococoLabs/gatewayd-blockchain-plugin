@@ -1,4 +1,4 @@
-var RippleToBlockchainBridge = require("" + __dirname + "/ripple_to_blockchain_bridge");
+var RippleToBlockchainBridge = require("" + __dirname + "/../lib/ripple_to_blockchain_bridge");
 
 function RippleToBlockchainBridgeController(gatewayd) {
   this.gatewayd = gatewayd;

@@ -1,5 +1,5 @@
-var RippleNameLookup = require("" + __dirname + "/ripple_name_lookup.js");
-var BlockchainBridge = require("" + __dirname + "/blockchain_bridge.js");
+var RippleNameLookup = require("" + __dirname + "/../lib/ripple_name_lookup.js");
+var BlockchainBridge = require("" + __dirname + "/../lib/blockchain_bridge.js");
 
 function BlockchainBridgeController(gatewayd) {
   this.gatewayd = gatewayd;

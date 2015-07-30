@@ -1,4 +1,4 @@
-const gatewayd = require(__dirname+'/../../gatewayd/');
+const gatewayd = require(__dirname+'/../../');
 const QueueWorker = require('sql-mq-worker');
 const blockchain =  require('blockchain-monitor');
 var config = require('../config/config.js');

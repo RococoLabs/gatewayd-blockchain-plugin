@@ -1,4 +1,4 @@
-const BlockchainPlugin = require('../gatewayd-blockchain-plugin');
+const BlockchainPlugin = require('./gatewayd-blockchain-plugin');
 
 module.exports = function(gatewayd) {
   
