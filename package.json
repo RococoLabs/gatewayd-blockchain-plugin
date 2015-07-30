@@ -1,6 +1,6 @@
 {
-  "name": "blockchain-gatewayd-plugin",
-  "version": "1.2.2",
+  "name": "gatewayd-blockchain-plugin",
+  "version": "1.0.0",
   "description": "Node.js processes that integrate bitocoin deposits and withdrawals with ripple gatewayd",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,6 @@
     "express": "^4.7.1",
     "supertest": "^0.13.0",
     "mocha": "^1.21.0",
-    "coffee-script": "^1.7.1",
     "node-dogecoin": "^0.3.9",
     "underscore": "^1.6.0",
     "blockchain-monitor": "^0.2.0"
@@ -39,6 +38,7 @@
   "keywords": [
     "bitcoin",
     "btc",
+    "bitcoind",
     "ripple",
     "xrp",
     "gatewayd"
