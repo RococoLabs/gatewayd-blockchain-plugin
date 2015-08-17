@@ -4,6 +4,8 @@ const blockchain =  require('blockchain-monitor');
 var config = require('../config/config.js');
 
 const blockchainClient = new blockchain.Client(config.get('bitcoind'));
+var coinDaemon = blockchainClient.coinDaemon; //dc: there is no need to use blockchain-monitor for this, we can use node-dogecoin directly
+
 
 const worker = new QueueWorker({
   Class: gatewayd.data.models.externalAccounts,
@@ -11,7 +13,7 @@ const worker = new QueueWorker({
     name: 'default'
   }},
   job: function(externalAccount, next) {
-    blockchainClient.coinDaemon.getnewaddress(function(error, address) {
+    coinDaemon.getnewaddress(function(error, address) {
       if (error) {
         console.log('ERROR', error);
         return next();

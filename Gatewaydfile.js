@@ -6,6 +6,9 @@ module.exports = function(gatewayd) {
     gatewayd: gatewayd
   }); 
 
+  for (var processname in blockchainPlugin.processes) {
+    gatewayd.processes.add(processname, blockchainPlugin.processes[processname]);
+  }
   gatewayd.server.use('/', blockchainPlugin);
  
 };

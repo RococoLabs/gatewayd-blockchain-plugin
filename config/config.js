@@ -1,29 +1,31 @@
-var config = require("nconf");
+var config = require('nconf');
 
 config
   .argv()
   .env()
-  .file({ file: __dirname+"/config.json" });
+  .file({ file: __dirname+'/config.json' });
 
 config.defaults({
-  "environment": "development",
+  'environment': 'development',
 
-  "gatewayd" : {
-    "domain": "192.168.37.37",
-    "apiAdmin": "",
-    "apiKey": "qoral",
+  'gatewayd' : {
+    'domain': '192.168.37.37',
+    'apiAdmin': '',
+    'apiKey': 'qoral',
   },
 
-  "bitcoindLastBlockHash": "",
-  "bitcoind" : {
-    "host": "192.168.37.37",
-    "port": 18332,
-    "user": "bitcoindrpc",
-    "pass": "scQja82SdSNEC6GWbAjaUDHfHFnbbjpW2rPaNzT",
-    "confirmations": 3,
-    "type": "bitcoin",
-
-    "acronym": "BTC"
+  'bitcoindLastBlockHash': '',
+  'bitcoind' : {
+    'rpcHost': '192.168.37.37',
+    'rpcPort': 18332,
+    'rpcUser': 'bitcoindrpc',
+    'rpcPass': 'scQja82SdSNEC6GWbAjaUDHfHFnbbjpW2rPaNzT',
+    'rpcMethod': 'POST',
+    'rpcHttps': false,
+    'confirmations': 3,
+    'walletPassphrase': 'mywalletpassphrase',
+    'type': 'bitcoin',
+    'acronym': 'BTC'
   },
 });
 

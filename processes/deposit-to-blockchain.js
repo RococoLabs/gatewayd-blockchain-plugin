@@ -1,4 +1,4 @@
-var SqlMqWorker, async, clearWithdrawal, getWithdrawal, getWithdrawalAddress, loopAndProcessWithdrawal, request, sendCoins;
+var SqlMqWorker, async, clearDeposit, getDeposit, getDepositAddress, loopAndProcessDeposit, request, sendCoins;
 var gatewaydDomain, gatewaydApiAdmin, gatewaydApiKey;
 
 var config = require(__dirname + "/../config/config.js");
@@ -8,67 +8,67 @@ coindaemon.set("password", config.get("bitcoind").pass);
 coindaemon.auth(config.get("bitcoind").user, config.get("bitcoind").pass);
 
 
-loopAndProcessWithdrawal = function(callback) {
+loopAndProcessDeposit = function(callback) {
   return async.waterfall([
     function(next) {
-      return getWithdrawal(next);
+      return getDeposit(next);
     },
-    function(withdrawal, next) {
-      return getWithdrawalAddress(withdrawal.external_account_id, function(error, externalAccount) {
+    function(deposit, next) {
+      return getDepositAddress(deposit.external_account_id, function(error, externalAccount) {
         if (error) {
-          console.log("getWithdrawalAddress::error", error);
+          console.log("getDepositAddress::error", error);
           return next(error, null);
         } else {
-          console.log("getWithdrawalAddress::address", externalAccount);
-          return next(null, withdrawal, externalAccount);
+          console.log("getDepositAddress::address", externalAccount);
+          return next(null, deposit, externalAccount);
         }
       });
     },
-    function(withdrawal, externalAccount, next) {
-      var withdrawaldata = {
-        amount: withdrawal.amount,
+    function(deposit, externalAccount, next) {
+      var depositdata = {
+        amount: deposit.amount,
         address: externalAccount.uid
       };
-      return sendCoins(withdrawaldata, function(error, response) {
-        return next(error, withdrawal);
+      return sendCoins(depositdata, function(error, response) {
+        return next(error, deposit);
       });
     },
-    function(withdrawal, next) {
-      return clearWithdrawal(withdrawal, next);
+    function(deposit, next) {
+      return clearDeposit(deposit, next);
     }
   ],
-  function(error, clearedWithdrawal) {
+  function(error, clearedDeposit) {
     return setTimeout((function() {
       return callback(callback);
     }), 2000);
   });
 };
 
-getWithdrawal = function(callback) {
+getDeposit = function(callback) {
   return request.get(gatewaydDomain + "/v1/withdrawals").auth(gatewaydApiAdmin, gatewaydApiKey).end(function(error, response) {
-    var withdrawal;
+    var deposit;
     if (error) {
       return callback(error, null);
     }
     else {
-      withdrawal = response.body.withdrawals[0];
-      if (withdrawal) {
-        return callback(null, withdrawal);
+      deposit = response.body.withdrawals[0];
+      if (deposit) {
+        return callback(null, deposit);
       }
       else {
-        return callback("no withdrawals", null);
+        return callback("no deposits", null);
       }
     }
   });
 };
 
-getWithdrawalAddress = function(externalAccountId, callback) {
+getDepositAddress = function(externalAccountId, callback) {
   return request.get(gatewaydDomain + "/v1/external_accounts/" + externalAccountId).auth(gatewaydApiAdmin, gatewaydApiKey).end(function(error, response) {
     if (error) {
       return callback(error, null);
     }
     else {
-      console.log("getWithdrawalAddress::response", response.body);
+      console.log("getDepositAddress::response", response.body);
       return callback(null, response.body.external_account);
     }
   });
@@ -82,17 +82,17 @@ sendCoins = function(options, callback) {
     else {
       console.log("SENT COINS", transaction);
     }
-    return callback(error, transaction.address, options.withdrawal);
+    return callback(error, transaction);
   }); 
 };
 
-clearWithdrawal = function(withdrawal, callback) {
+clearDeposit = function(deposit, callback) {
   var url;
-  url = gatewaydDomain + "/v1/withdrawals/" + withdrawal.id + "/clear";
-  console.log("clearWithdrawal", url);
+  url = gatewaydDomain + "/v1/withdrawals/" + deposit.id + "/clear";
+  console.log("clearDeposit", url);
   return request.post(url).auth(gatewaydApiAdmin, gatewaydApiKey).send({}).end(function(error, response) {
-    console.log("withdrawal::clear::success", response.body);
-    console.log("withdrawal::clear::error", response.error);
+    console.log("deposit::clear::success", response.body);
+    console.log("deposit::clear::error", response.error);
     return callback(error, response);
   });
 };
@@ -107,4 +107,4 @@ gatewaydApiKey = config.get("gatewayd").apiKey;
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-loopAndProcessWithdrawal(loopAndProcessWithdrawal);
+loopAndProcessDeposit(loopAndProcessDeposit);
